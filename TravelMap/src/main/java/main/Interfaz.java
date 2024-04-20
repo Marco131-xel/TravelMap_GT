@@ -3,15 +3,19 @@ package main;
 import archivo.*;
 import java.io.File;
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author marco
  */
 public class Interfaz extends javax.swing.JFrame {
-    
+
     JFileChooser seleccionado = new JFileChooser();
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
@@ -19,8 +23,8 @@ public class Interfaz extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    
     int xMouse, yMouse;
+
     public Interfaz() {
         initComponents();
     }
@@ -35,7 +39,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -44,23 +47,12 @@ public class Interfaz extends javax.swing.JFrame {
         mapa = new javax.swing.JLabel();
         bt_buscar = new javax.swing.JLabel();
         bt_abrir = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tabla_xd = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel2.setBackground(new java.awt.Color(0, 153, 51));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 882, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 446, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -162,6 +154,19 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        Tabla_xd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Origen ", "Destino", "Tiempo_V", "Tiempo_P", "Gasolina", "Energia", "Distancia"
+            }
+        ));
+        jScrollPane1.setViewportView(Tabla_xd);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -179,11 +184,12 @@ public class Interfaz extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(54, 54, 54)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(111, 111, 111)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(131, 131, 131))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -201,30 +207,31 @@ public class Interfaz extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(bt_abrir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(bt_abrir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)))
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                        .addGap(135, 135, 135)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(162, 162, 162)))
+                .addGap(43, 43, 43))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -251,7 +258,7 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        this.setLocation(x-xMouse, y-yMouse);
+        this.setLocation(x - xMouse, y - yMouse);
     }//GEN-LAST:event_bt_pruebaMouseDragged
 
     private void bt_pruebaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseClicked
@@ -266,10 +273,10 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void bt_pruebaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseExited
         // TODO add your handling code here:
-                bt_prueba.setBackground(Color.RED);
+        bt_prueba.setBackground(Color.RED);
     }//GEN-LAST:event_bt_pruebaMouseExited
 
-        // BOTON BUSCAR
+    // BOTON BUSCAR
     private void bt_buscarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_buscarMousePressed
         // TODO add your handling code here:
         xMouse = evt.getX();
@@ -280,17 +287,17 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        this.setLocation(x-xMouse, y-yMouse);
+        this.setLocation(x - xMouse, y - yMouse);
     }//GEN-LAST:event_bt_buscarMouseDragged
 
     private void bt_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_buscarMouseClicked
         // TODO add your handling code here:
-                JOptionPane.showMessageDialog(null, "valor buscar", "Buscar", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "valor buscar", "Buscar", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_bt_buscarMouseClicked
 
-           // BOTON ABRIR
+    // BOTON ABRIR
     private void bt_abrirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_abrirMouseEntered
-  
+
     }//GEN-LAST:event_bt_abrirMouseEntered
 
     private void bt_abrirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_abrirMousePressed
@@ -303,27 +310,49 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         int x = evt.getX();
         int y = evt.getY();
-        this.setLocation(x-xMouse, y-yMouse);
+        this.setLocation(x - xMouse, y - yMouse);
     }//GEN-LAST:event_bt_abrirMouseDragged
 
     private void bt_abrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_abrirMouseClicked
         // TODO add your handling code here:
-        if(seleccionado.showDialog(null, "Abrir Archivo") == JFileChooser.APPROVE_OPTION){
+        if (seleccionado.showDialog(null, "Abrir Archivo") == JFileChooser.APPROVE_OPTION) {
             archivo = seleccionado.getSelectedFile();
-            if(archivo.canRead()){
-                if(archivo.getName().endsWith("txt")){
+            if (archivo.canRead()) {
+                if (archivo.getName().endsWith("txt")) {
                     String contenido = gestion.Abrir(archivo);
                     // Agregamos el lugar donde se manda el archivo 
                 } else {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese el archivo de entrada");
                 }
             }
-            
+
         }
-        
     }//GEN-LAST:event_bt_abrirMouseClicked
+    public DefaultTableModel Abrir(File archivo) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Origen");
+        modelo.addColumn("Destino");
+        modelo.addColumn("Tiempo Vehiculo");
+        modelo.addColumn("Tiempo Pie");
+        modelo.addColumn("Consumo Gas");
+        modelo.addColumn("Desgaste Persona");
+        modelo.addColumn("Distancia");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split("\\|");
+                modelo.addRow(partes);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return modelo;
+
+    }
 
     /**
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -360,6 +389,7 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Tabla_xd;
     private javax.swing.JLabel bt_abrir;
     private javax.swing.JLabel bt_buscar;
     private javax.swing.JPanel bt_prueba;
@@ -367,8 +397,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel mapa;
     // End of variables declaration//GEN-END:variables
 }
