@@ -12,22 +12,26 @@ public class GestionArchivos {
         
     }
     
-    // Metodo para los archivos 
+    // Metodo para los archivos
     public String Abrir(File archivo){
         String contenido = "";
         try{
             entrada = new FileInputStream(archivo);
-            int afk;
-            while((afk = entrada.read()) !=1){
-                char caracter = (char)afk;
-                contenido += caracter;
+            InputStreamReader isr = new InputStreamReader(entrada, "UTF-8"); // Especificar la codificación UTF-8
+            BufferedReader br = new BufferedReader(isr);
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                contenido += linea + "\n";
             }
-        }catch (Exception e){
-           
+            br.close();
+        } catch (Exception e){
+            e.printStackTrace();
         }
         return contenido;
     }
-    
+
+
+
     // Metodo para guardar el archivo 
     public String Guardar(File archivo, String contenido){
         String respuesta = null;

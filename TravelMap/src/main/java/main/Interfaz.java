@@ -1,13 +1,19 @@
 package main;
 
 import archivo.*;
-import java.io.File;
+import grafos.*;
+import java.io.*;
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import datos.Datos;
+import java.awt.Image;
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +25,7 @@ public class Interfaz extends javax.swing.JFrame {
     JFileChooser seleccionado = new JFileChooser();
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
+    Grafos g = new Grafos();
 
     /**
      * Creates new form Main
@@ -49,6 +56,7 @@ public class Interfaz extends javax.swing.JFrame {
         bt_abrir = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla_xd = new javax.swing.JTable();
+        mapaGrafo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,6 +125,23 @@ public class Interfaz extends javax.swing.JFrame {
 
         mapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-mapa-64.png"))); // NOI18N
         mapa.setText("jLabel5");
+        mapa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mapa.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                mapaMouseDragged(evt);
+            }
+        });
+        mapa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mapaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                mapaMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                mapaMousePressed(evt);
+            }
+        });
 
         bt_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-ver-archivo-50.png"))); // NOI18N
         bt_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -171,67 +196,64 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(51, Short.MAX_VALUE)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(67, 67, 67)
-                                .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(111, 111, 111)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(131, 131, 131))
+                        .addContainerGap(51, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57)
-                                .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(606, 606, 606))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(bt_abrir, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32))
+                        .addGap(67, 67, 67)
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(93, 93, 93))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(bt_abrir, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(358, 358, 358)
+                .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(bt_abrir)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(61, 61, 61)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(135, 135, 135)
+                                .addGap(14, 14, 14)
+                                .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16)
+                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(162, 162, 162)))
-                .addGap(43, 43, 43))
+                        .addGap(29, 29, 29))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -248,6 +270,68 @@ public class Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void leerArchivo(String contenido) {
+        try {
+            // Abre el archivo
+            List<Datos> listaDatos = new ArrayList<>();
+            // Dividir el  contenido del arhivo en lineas
+            String[] lineas = contenido.split("\n");
+            // Leer cada linea del archivo
+            for (String linea : lineas) {
+                //System.out.println("Línea leída: " + linea);
+                // Divide la linea en partes utilizando "|" como delimitador
+                String[] partes = linea.split("\\|");
+                // Extrae los datos de cada parte
+                String origen = partes[0];
+                String destino = partes[1];
+                int tiempoVehiculo = Integer.parseInt(partes[2]);
+                int tiempoPie = Integer.parseInt(partes[3]);
+                int consumoGas = Integer.parseInt(partes[4]);
+                int desgastePersona = Integer.parseInt(partes[5]);
+                int distancia = Integer.parseInt(partes[6]);
+
+                // Creamos objetos
+                Datos datos = new Datos(origen, destino, tiempoVehiculo, tiempoPie, consumoGas, desgastePersona, distancia);
+                listaDatos.add(datos);
+            }
+
+            // Mostrar datos en la tabla
+            DefaultTableModel model = (DefaultTableModel) Tabla_xd.getModel();
+            // Limpiamos la tabla
+            model.setRowCount(0);
+            // Iteramos sobre la lista de datos 
+            for (Datos datos : listaDatos) {
+                Object[] fila = {
+                    datos.getDestino(), datos.getOrigen(),
+                    datos.getTiempo_vehiculo(),
+                    datos.getTiempo_pie(),
+                    datos.getConsumo_gas(),
+                    datos.getDesgaste_persona(),
+                    datos.getDistancia()
+                };
+                model.addRow(fila);
+            }
+            jScrollPane1.repaint();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mostrarGrafo() {
+        // Carga la imagen del grafo y la establece 
+        ImageIcon ig = new ImageIcon("grafo.png");
+        mapaGrafo.setIcon(ig);
+        // vuelve a pintar 
+        mapaGrafo.repaint();
+    }
+    
+    // Arreglando imagen 
+    public  void SetImagen( JLabel label,String url , JFrame ventana){
+        ImageIcon imagen = new ImageIcon(url);
+        Icon icon= new ImageIcon(imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
+        label.setIcon(icon);
+        ventana.repaint();
+    }
     private void bt_pruebaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMousePressed
         // TODO add your handling code here
         xMouse = evt.getX();
@@ -320,37 +404,37 @@ public class Interfaz extends javax.swing.JFrame {
             if (archivo.canRead()) {
                 if (archivo.getName().endsWith("txt")) {
                     String contenido = gestion.Abrir(archivo);
-                    // Agregamos el lugar donde se manda el archivo 
+                    // Agregamos el lugar donde se manda el archivo
+                    leerArchivo(contenido);
+                    g.generarGrafo(contenido);
                 } else {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese el archivo de entrada");
                 }
             }
-
         }
     }//GEN-LAST:event_bt_abrirMouseClicked
-    public DefaultTableModel Abrir(File archivo) {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Origen");
-        modelo.addColumn("Destino");
-        modelo.addColumn("Tiempo Vehiculo");
-        modelo.addColumn("Tiempo Pie");
-        modelo.addColumn("Consumo Gas");
-        modelo.addColumn("Desgaste Persona");
-        modelo.addColumn("Distancia");
 
-        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split("\\|");
-                modelo.addRow(partes);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return modelo;
+    private void mapaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapaMouseClicked
+        // TODO add your handling code here:
+        mostrarGrafo();
+    }//GEN-LAST:event_mapaMouseClicked
 
-    }
+    private void mapaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mapaMouseEntered
 
+    private void mapaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapaMousePressed
+        // TODO add your handling code here:
+        xMouse = evt.getX();
+        yMouse = evt.getY();
+    }//GEN-LAST:event_mapaMousePressed
+
+    private void mapaMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapaMouseDragged
+        // TODO add your handling code here:
+        int x = evt.getX();
+        int y = evt.getY();
+        this.setLocation(x - xMouse, y - yMouse);
+    }//GEN-LAST:event_mapaMouseDragged
     /**
      *
      * @param args the command line arguments
@@ -400,5 +484,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel mapa;
+    private javax.swing.JLabel mapaGrafo;
     // End of variables declaration//GEN-END:variables
 }

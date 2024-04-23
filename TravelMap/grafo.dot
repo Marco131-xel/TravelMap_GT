@@ -1,0 +1,12 @@
+digraph G {
+graph [ratio=0.5];
+  "AltaVerapaz" -> "SantaMaríadeJesús";
+  "Petén" -> "CiudadVieja";
+  "Quetzaltenango" -> "Retalhuleu";
+  "Retalhuleu" -> "Quetzaltenango";
+  "SanMarcos" -> "Quetzaltenango";
+  "Suchitepequez" -> "Guatemala";
+  "SanMarcos" -> "SanBartoloméMilpasAltas";
+  "Huehuetenango" -> "SanLucasSacatepéquez";
+  "Quiché" -> "SantaLucíaMilpasAltas";
+}
