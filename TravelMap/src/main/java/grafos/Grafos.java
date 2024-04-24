@@ -17,7 +17,7 @@ public class Grafos {
             String[] lineas = contenido.split("\n");
             for(String linea : lineas){
                 String[] partes = linea.split("\\|");
-                buffer.write("  \"" + partes[0] + "\" -> \"" + partes[1] + "\";\n");
+                buffer.write("  \"" + partes[0] + "\" -> \"" + partes[1] + "\" [label=\"" + partes[6] + "\"];\n");
             }
             
             buffer.write("}\n");

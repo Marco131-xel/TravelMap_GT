@@ -1,12 +1,12 @@
 digraph G {
 graph [ratio=0.5];
-  "AltaVerapaz" -> "SantaMaríadeJesús";
-  "Petén" -> "CiudadVieja";
-  "Quetzaltenango" -> "Retalhuleu";
-  "Retalhuleu" -> "Quetzaltenango";
-  "SanMarcos" -> "Quetzaltenango";
-  "Suchitepequez" -> "Guatemala";
-  "SanMarcos" -> "SanBartoloméMilpasAltas";
-  "Huehuetenango" -> "SanLucasSacatepéquez";
-  "Quiché" -> "SantaLucíaMilpasAltas";
+  "AltaVerapaz" -> "SantaMaríadeJesús" [label="85"];
+  "Petén" -> "CiudadVieja" [label="24"];
+  "Quetzaltenango" -> "Retalhuleu" [label="100"];
+  "Retalhuleu" -> "Quetzaltenango" [label="100"];
+  "SanMarcos" -> "Quetzaltenango" [label="250"];
+  "Suchitepequez" -> "Guatemala" [label="70"];
+  "SanMarcos" -> "SanBartoloméMilpasAltas" [label="55"];
+  "Huehuetenango" -> "SanLucasSacatepéquez" [label="62"];
+  "Quiché" -> "SantaLucíaMilpasAltas" [label="32"];
 }

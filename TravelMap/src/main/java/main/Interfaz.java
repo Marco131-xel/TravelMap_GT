@@ -323,6 +323,9 @@ public class Interfaz extends javax.swing.JFrame {
         mapaGrafo.setIcon(ig);
         // vuelve a pintar 
         mapaGrafo.repaint();
+        // mejorar grafo
+        SetImagen(mapaGrafo, "grafo.png", this);
+
     }
     
     // Arreglando imagen 
@@ -331,6 +334,17 @@ public class Interfaz extends javax.swing.JFrame {
         Icon icon= new ImageIcon(imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
         label.setIcon(icon);
         ventana.repaint();
+    }
+    
+    // funcion para limpiar datos 
+    private void limpiarDatos(){
+        // Limpiar el JLabel 
+        mapaGrafo.setIcon(null);
+        mapaGrafo.repaint();
+        
+        // Limpiar la tabla 
+        DefaultTableModel model = (DefaultTableModel) Tabla_xd.getModel();
+        model.setRowCount(0);
     }
     private void bt_pruebaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMousePressed
         // TODO add your handling code here
@@ -376,7 +390,8 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void bt_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_buscarMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "valor buscar", "Buscar", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(null, "valor buscar", "Buscar", JOptionPane.INFORMATION_MESSAGE);
+        limpiarDatos();
     }//GEN-LAST:event_bt_buscarMouseClicked
 
     // BOTON ABRIR
