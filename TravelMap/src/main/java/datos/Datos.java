@@ -1,6 +1,7 @@
 package datos;
 
 public class Datos {
+
     private String origen;
     private String destino;
     private int tiempo_vehiculo;
@@ -10,14 +11,15 @@ public class Datos {
     private int distancia;
 
     // Constructor vacio
-    public Datos(){
+    public Datos() {
 
     }
+
     // Constructor
-    public Datos(String destino, String origen, int tiempo_vehiculo,
-                 int tiempo_pie, int consumo_gas, int desgaste_persona, int distancia) {
-        this.destino = destino;
+    public Datos(String origen, String destino, int tiempo_vehiculo,
+            int tiempo_pie, int consumo_gas, int desgaste_persona, int distancia) {
         this.origen = origen;
+        this.destino = destino;
         this.tiempo_vehiculo = tiempo_vehiculo;
         this.tiempo_pie = tiempo_pie;
         this.consumo_gas = consumo_gas;
@@ -83,14 +85,14 @@ public class Datos {
 
     @Override
     public String toString() {
-        return "Datos{" +
-                "origen='" + origen + '\'' +
-                ", destino='" + destino + '\'' +
-                ", tiempo_vehiculo=" + tiempo_vehiculo +
-                ", tiempo_pie=" + tiempo_pie +
-                ", consumo_gas=" + consumo_gas +
-                ", desgaste_persona=" + desgaste_persona +
-                ", distancia=" + distancia +
-                '}';
+        return "Datos{"
+                + "origen='" + origen + '\''
+                + ", destino='" + destino + '\''
+                + ", tiempo_vehiculo=" + tiempo_vehiculo
+                + ", tiempo_pie=" + tiempo_pie
+                + ", consumo_gas=" + consumo_gas
+                + ", desgaste_persona=" + desgaste_persona
+                + ", distancia=" + distancia
+                + '}';
     }
 }

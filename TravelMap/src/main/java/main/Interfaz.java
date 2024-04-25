@@ -8,8 +8,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import datos.Datos;
 import java.awt.Image;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -26,14 +29,41 @@ public class Interfaz extends javax.swing.JFrame {
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
     Grafos g = new Grafos();
+    private List<Datos> listaDatos;
 
     /**
      * Creates new form Main
      */
     int xMouse, yMouse;
+    private List<String> listOrigen = new ArrayList<>();
+    private List<String> listDestino = new ArrayList<>();
+    //List<Datos> listaDatos;
 
     public Interfaz() {
         initComponents();
+        // Textpane no editable
+        areaDetalles.setEditable(false);
+        areaDetalles.setFocusable(false);
+        areaDetalles.setCursor(null);
+        // Listener de cambio de seleccion al JComboBox de Origen
+        Corigen.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    mostrarDetallesViaje();
+                }
+            }
+        });
+        // Listener de cambio de seleccion al JComboBox de Destino
+        Cdestino.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    mostrarDetallesViaje();
+                }
+            }
+        });
+
     }
 
     /**
@@ -46,7 +76,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         bt_prueba = new javax.swing.JPanel();
@@ -57,21 +86,16 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla_xd = new javax.swing.JTable();
         mapaGrafo = new javax.swing.JLabel();
+        Corigen = new javax.swing.JComboBox<>();
+        Cdestino = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        areaDetalles = new javax.swing.JTextPane();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 238, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 462, Short.MAX_VALUE)
-        );
+        jPanel1.setBackground(new java.awt.Color(0, 102, 255));
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -111,16 +135,16 @@ public class Interfaz extends javax.swing.JFrame {
         bt_pruebaLayout.setHorizontalGroup(
             bt_pruebaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bt_pruebaLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel3)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         bt_pruebaLayout.setVerticalGroup(
             bt_pruebaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bt_pruebaLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_pruebaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         mapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-mapa-64.png"))); // NOI18N
@@ -192,75 +216,105 @@ public class Interfaz extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Tabla_xd);
 
+        Corigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CorigenActionPerformed(evt);
+            }
+        });
+
+        Cdestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CdestinoActionPerformed(evt);
+            }
+        });
+
+        jScrollPane3.setViewportView(areaDetalles);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Origen");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Destino");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(51, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(93, 93, 93))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(bt_abrir, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(bt_abrir, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(358, 358, 358)
-                .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(203, 203, 203)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Corigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Cdestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(94, 94, 94))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bt_abrir))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(bt_abrir)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(67, 67, 67)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Corigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Cdestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(16, 16, 16)
-                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +327,7 @@ public class Interfaz extends javax.swing.JFrame {
     public void leerArchivo(String contenido) {
         try {
             // Abre el archivo
-            List<Datos> listaDatos = new ArrayList<>();
+            listaDatos = new ArrayList<>();
             // Dividir el  contenido del arhivo en lineas
             String[] lineas = contenido.split("\n");
             // Leer cada linea del archivo
@@ -290,6 +344,14 @@ public class Interfaz extends javax.swing.JFrame {
                 int desgastePersona = Integer.parseInt(partes[5]);
                 int distancia = Integer.parseInt(partes[6]);
 
+                // Agregar los lugares a las listas
+                if (!listOrigen.contains(origen)) {
+                    listOrigen.add(origen);
+                }
+                if (!listDestino.contains(destino)) {
+                    listDestino.add(destino);
+                }
+
                 // Creamos objetos
                 Datos datos = new Datos(origen, destino, tiempoVehiculo, tiempoPie, consumoGas, desgastePersona, distancia);
                 listaDatos.add(datos);
@@ -302,7 +364,8 @@ public class Interfaz extends javax.swing.JFrame {
             // Iteramos sobre la lista de datos 
             for (Datos datos : listaDatos) {
                 Object[] fila = {
-                    datos.getDestino(), datos.getOrigen(),
+                    datos.getOrigen(),
+                    datos.getDestino(),
                     datos.getTiempo_vehiculo(),
                     datos.getTiempo_pie(),
                     datos.getConsumo_gas(),
@@ -312,11 +375,40 @@ public class Interfaz extends javax.swing.JFrame {
                 model.addRow(fila);
             }
             jScrollPane1.repaint();
+
+            // agregar los lugares a mi Jcombox 
+            Corigen.setModel(new DefaultComboBoxModel<>(listOrigen.toArray(new String[0])));
+            Cdestino.setModel(new DefaultComboBoxModel<>(listDestino.toArray(new String[0])));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // Configurando COMBO BOX
+    private void mostrarDetallesViaje() {
+        String origenSelect = (String) Corigen.getSelectedItem();
+        String destinoSelect = (String) Cdestino.getSelectedItem();
+
+        // Bucle para buscar el viaje correspondiente en la lista de datos
+        for (Datos datos : listaDatos) {
+            // Verificar si los datos coinciden con el origen y destino seleccionados
+            if (datos.getOrigen().equals(origenSelect) && datos.getDestino().equals(destinoSelect)) {
+                // Mostrar los detalles del viaje en el JTextPane
+                areaDetalles.setText("Tiempo Vehículo: " + datos.getTiempo_vehiculo() + " Horas" + "\n"
+                        + "Tiempo Pie: " + datos.getTiempo_pie() + " Horas" + "\n"
+                        + "Consumo de Gas: " + datos.getConsumo_gas() + " Galones" + "\n"
+                        + "Desgaste Persona: " + datos.getDesgaste_persona() + " Cal" + "\n"
+                        + "Distancia: " + datos.getDistancia() + " Km");
+                // Si encontramos el viaje correspondiente, salimos del bucle
+                return;
+            }
+        }
+        // Si no se encontraron datos para el viaje seleccionado, se borra el JTextPane
+        areaDetalles.setText("");
+    }
+
+    // Mostar Grafo osea mapa
     private void mostrarGrafo() {
         // Carga la imagen del grafo y la establece 
         ImageIcon ig = new ImageIcon("grafo.png");
@@ -327,24 +419,31 @@ public class Interfaz extends javax.swing.JFrame {
         SetImagen(mapaGrafo, "grafo.png", this);
 
     }
-    
+
     // Arreglando imagen 
-    public  void SetImagen( JLabel label,String url , JFrame ventana){
+    public void SetImagen(JLabel label, String url, JFrame ventana) {
         ImageIcon imagen = new ImageIcon(url);
-        Icon icon= new ImageIcon(imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
+        Icon icon = new ImageIcon(imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
         label.setIcon(icon);
         ventana.repaint();
     }
-    
+
     // funcion para limpiar datos 
-    private void limpiarDatos(){
+    private void limpiarDatos() {
         // Limpiar el JLabel 
         mapaGrafo.setIcon(null);
         mapaGrafo.repaint();
-        
+
         // Limpiar la tabla 
         DefaultTableModel model = (DefaultTableModel) Tabla_xd.getModel();
         model.setRowCount(0);
+        // Limpiar el textarea
+        areaDetalles.setText("");
+        // Limpiar los JComboBox
+        Corigen.removeAllItems();
+        Cdestino.removeAllItems();
+        listOrigen.clear();
+        listDestino.clear();
     }
     private void bt_pruebaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMousePressed
         // TODO add your handling code here
@@ -361,7 +460,8 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void bt_pruebaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Este es un mensaje de información", "Información", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(null, "Este es un mensaje de información", "Información", JOptionPane.INFORMATION_MESSAGE);
+        mostrarDetallesViaje();
     }//GEN-LAST:event_bt_pruebaMouseClicked
 
     private void bt_pruebaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseEntered
@@ -450,6 +550,14 @@ public class Interfaz extends javax.swing.JFrame {
         int y = evt.getY();
         this.setLocation(x - xMouse, y - yMouse);
     }//GEN-LAST:event_mapaMouseDragged
+
+    private void CdestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CdestinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CdestinoActionPerformed
+
+    private void CorigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CorigenActionPerformed
     /**
      *
      * @param args the command line arguments
@@ -488,16 +596,21 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Cdestino;
+    private javax.swing.JComboBox<String> Corigen;
     private javax.swing.JTable Tabla_xd;
+    private javax.swing.JTextPane areaDetalles;
     private javax.swing.JLabel bt_abrir;
     private javax.swing.JLabel bt_buscar;
     private javax.swing.JPanel bt_prueba;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel mapa;
     private javax.swing.JLabel mapaGrafo;
     // End of variables declaration//GEN-END:variables
