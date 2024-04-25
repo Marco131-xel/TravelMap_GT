@@ -76,36 +76,196 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        bt_prueba = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        detalles = new javax.swing.JLabel();
         mapa = new javax.swing.JLabel();
         bt_buscar = new javax.swing.JLabel();
         bt_abrir = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Tabla_xd = new javax.swing.JTable();
-        mapaGrafo = new javax.swing.JLabel();
         Corigen = new javax.swing.JComboBox<>();
         Cdestino = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         areaDetalles = new javax.swing.JTextPane();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        origen = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tabla_xd = new javax.swing.JTable();
+        mapaGrafo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lamapa = new javax.swing.JLabel();
+        destino = new javax.swing.JLabel();
+        bt_prueba = new javax.swing.JPanel();
+        ini = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 102, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 153, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Mapa");
+        detalles.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        detalles.setForeground(new java.awt.Color(255, 255, 204));
+        detalles.setText("Detalles");
+        jPanel1.add(detalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Detalles");
+        mapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-mapa-64.png"))); // NOI18N
+        mapa.setText("jLabel5");
+        mapa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mapa.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                mapaMouseDragged(evt);
+            }
+        });
+        mapa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mapaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                mapaMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                mapaMousePressed(evt);
+            }
+        });
+        jPanel1.add(mapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 64, -1));
 
-        bt_prueba.setBackground(new java.awt.Color(255, 0, 51));
+        bt_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-bote-de-basura-60.png"))); // NOI18N
+        bt_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bt_buscar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bt_buscarMouseDragged(evt);
+            }
+        });
+        bt_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_buscarMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bt_buscarMousePressed(evt);
+            }
+        });
+        jPanel1.add(bt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, 50, 50));
+
+        bt_abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-abrir-carpeta-50.png"))); // NOI18N
+        bt_abrir.setText("jLabel4");
+        bt_abrir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bt_abrir.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bt_abrirMouseDragged(evt);
+            }
+        });
+        bt_abrir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_abrirMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                bt_abrirMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bt_abrirMousePressed(evt);
+            }
+        });
+        jPanel1.add(bt_abrir, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 53, -1));
+
+        Corigen.setBackground(new java.awt.Color(255, 255, 204));
+        Corigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CorigenActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Corigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 150, -1));
+
+        Cdestino.setBackground(new java.awt.Color(255, 255, 204));
+        Cdestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CdestinoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Cdestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 150, -1));
+
+        jScrollPane3.setViewportView(areaDetalles);
+
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 188, 130));
+
+        origen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        origen.setForeground(new java.awt.Color(255, 255, 255));
+        origen.setText("Origen");
+        jPanel1.add(origen, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 204));
+
+        Tabla_xd.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Origen ", "Destino", "Tiempo_V", "Tiempo_P", "Gasolina", "Energia", "Distancia"
+            }
+        ));
+        jScrollPane1.setViewportView(Tabla_xd);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/xd.png"))); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Century", 1, 34)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 127, 0));
+        jLabel2.setText("Travel Map GT");
+
+        lamapa.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        lamapa.setForeground(new java.awt.Color(0, 127, 0));
+        lamapa.setText("Mapa");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 27, Short.MAX_VALUE)
+                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 849, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(76, 76, 76)
+                                .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel1)))
+                .addGap(34, 34, 34))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, -3, 910, 720));
+
+        destino.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        destino.setForeground(new java.awt.Color(255, 255, 255));
+        destino.setText("Destino");
+        jPanel1.add(destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 81, -1));
+
+        bt_prueba.setBackground(new java.awt.Color(51, 153, 255));
         bt_prueba.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bt_prueba.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -127,198 +287,38 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Buscar");
+        ini.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ini.setForeground(new java.awt.Color(255, 255, 204));
+        ini.setText("Iniciar");
 
         javax.swing.GroupLayout bt_pruebaLayout = new javax.swing.GroupLayout(bt_prueba);
         bt_prueba.setLayout(bt_pruebaLayout);
         bt_pruebaLayout.setHorizontalGroup(
             bt_pruebaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bt_pruebaLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel3)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addComponent(ini)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         bt_pruebaLayout.setVerticalGroup(
             bt_pruebaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_pruebaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addComponent(ini)
                 .addContainerGap())
         );
 
-        mapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-mapa-64.png"))); // NOI18N
-        mapa.setText("jLabel5");
-        mapa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        mapa.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                mapaMouseDragged(evt);
-            }
-        });
-        mapa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mapaMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                mapaMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                mapaMousePressed(evt);
-            }
-        });
-
-        bt_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-ver-archivo-50.png"))); // NOI18N
-        bt_buscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bt_buscar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                bt_buscarMouseDragged(evt);
-            }
-        });
-        bt_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_buscarMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                bt_buscarMousePressed(evt);
-            }
-        });
-
-        bt_abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-abrir-carpeta-50.png"))); // NOI18N
-        bt_abrir.setText("jLabel4");
-        bt_abrir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bt_abrir.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                bt_abrirMouseDragged(evt);
-            }
-        });
-        bt_abrir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_abrirMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                bt_abrirMouseEntered(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                bt_abrirMousePressed(evt);
-            }
-        });
-
-        Tabla_xd.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Origen ", "Destino", "Tiempo_V", "Tiempo_P", "Gasolina", "Energia", "Distancia"
-            }
-        ));
-        jScrollPane1.setViewportView(Tabla_xd);
-
-        Corigen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CorigenActionPerformed(evt);
-            }
-        });
-
-        Cdestino.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CdestinoActionPerformed(evt);
-            }
-        });
-
-        jScrollPane3.setViewportView(areaDetalles);
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Origen");
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Destino");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(bt_abrir, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(203, 203, 203)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Corigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Cdestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(138, 138, 138))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(94, 94, 94))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(mapa, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(bt_abrir))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bt_prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Corigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Cdestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel1.add(bt_prueba, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 660, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
         );
 
         pack();
@@ -460,8 +460,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void bt_pruebaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseClicked
         // TODO add your handling code here:
-        //JOptionPane.showMessageDialog(null, "Este es un mensaje de información", "Información", JOptionPane.INFORMATION_MESSAGE);
-        mostrarDetallesViaje();
+        JOptionPane.showMessageDialog(null, "Este es un mensaje de información", "Información", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_bt_pruebaMouseClicked
 
     private void bt_pruebaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseEntered
@@ -471,7 +470,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void bt_pruebaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseExited
         // TODO add your handling code here:
-        bt_prueba.setBackground(Color.RED);
+        bt_prueba.setBackground(new Color(51,153,255));
     }//GEN-LAST:event_bt_pruebaMouseExited
 
     // BOTON BUSCAR
@@ -603,15 +602,18 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel bt_abrir;
     private javax.swing.JLabel bt_buscar;
     private javax.swing.JPanel bt_prueba;
+    private javax.swing.JLabel destino;
+    private javax.swing.JLabel detalles;
+    private javax.swing.JLabel ini;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lamapa;
     private javax.swing.JLabel mapa;
     private javax.swing.JLabel mapaGrafo;
+    private javax.swing.JLabel origen;
     // End of variables declaration//GEN-END:variables
 }
