@@ -6,7 +6,7 @@ import java.io.*;
 import java.awt.Color;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import datos.Datos;
+import datos.*;
 import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -30,6 +30,7 @@ public class Interfaz extends javax.swing.JFrame {
     GestionArchivos gestion = new GestionArchivos();
     Grafos g = new Grafos();
     private List<Datos> listaDatos;
+    private List<Trafico> listaTrafico;
 
     /**
      * Creates new form Main
@@ -324,6 +325,7 @@ public class Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Funcion para abrir el primer archivo
     public void leerArchivo(String contenido) {
         try {
             // Abre el archivo
@@ -381,6 +383,32 @@ public class Interfaz extends javax.swing.JFrame {
             Cdestino.setModel(new DefaultComboBoxModel<>(listDestino.toArray(new String[0])));
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Funcion para abrir el segundo archivo 
+    public void leerArchiDos(String contenido){
+        try{
+            // analisis del archivo
+            listaTrafico = new ArrayList<>();
+            String[] lineas = contenido.split("\n");
+            // Leer cada linea del archivo 
+            for(String linea : lineas){
+                // Divide la linea en partes utilizando "|" como delimitador
+                String[] partes = linea.split("\\|");
+                // Extrae los datos de cada parte
+                String torigen = partes[0];
+                String tdestino = partes[1];
+                int hinicio = Integer.parseInt(partes[2]);
+                int hllegada = Integer.parseInt(partes[3]);
+                int probabilidad = Integer.parseInt(partes[4]);
+                
+                // Creamos objetos
+                Trafico trafico = new Trafico(torigen, tdestino, hinicio, hllegada, probabilidad);
+                listaTrafico.add(trafico);            
+            }
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
