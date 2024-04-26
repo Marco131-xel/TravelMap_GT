@@ -96,6 +96,7 @@ public class Interfaz extends javax.swing.JFrame {
         destino = new javax.swing.JLabel();
         bt_prueba = new javax.swing.JPanel();
         ini = new javax.swing.JLabel();
+        bt_abriDo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -311,6 +312,23 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel1.add(bt_prueba, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 660, -1, -1));
 
+        bt_abriDo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-abrir-carpeta-50.png"))); // NOI18N
+        bt_abriDo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bt_abriDo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bt_abriDoMouseDragged(evt);
+            }
+        });
+        bt_abriDo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_abriDoMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bt_abriDoMousePressed(evt);
+            }
+        });
+        jPanel1.add(bt_abriDo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 570, 50, 50));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -386,15 +404,15 @@ public class Interfaz extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     // Funcion para abrir el segundo archivo 
-    public void leerArchiDos(String contenido){
-        try{
+    public void leerArchiDos(String contenido) {
+        try {
             // analisis del archivo
             listaTrafico = new ArrayList<>();
             String[] lineas = contenido.split("\n");
             // Leer cada linea del archivo 
-            for(String linea : lineas){
+            for (String linea : lineas) {
                 // Divide la linea en partes utilizando "|" como delimitador
                 String[] partes = linea.split("\\|");
                 // Extrae los datos de cada parte
@@ -403,12 +421,12 @@ public class Interfaz extends javax.swing.JFrame {
                 int hinicio = Integer.parseInt(partes[2]);
                 int hllegada = Integer.parseInt(partes[3]);
                 int probabilidad = Integer.parseInt(partes[4]);
-                
+
                 // Creamos objetos
                 Trafico trafico = new Trafico(torigen, tdestino, hinicio, hllegada, probabilidad);
-                listaTrafico.add(trafico);            
+                listaTrafico.add(trafico);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -498,7 +516,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void bt_pruebaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseExited
         // TODO add your handling code here:
-        bt_prueba.setBackground(new Color(51,153,255));
+        bt_prueba.setBackground(new Color(51, 153, 255));
     }//GEN-LAST:event_bt_pruebaMouseExited
 
     // BOTON BUSCAR
@@ -585,6 +603,35 @@ public class Interfaz extends javax.swing.JFrame {
     private void CorigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorigenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CorigenActionPerformed
+
+    // FUNCIONES PARA TRABAJAR CON EL SEGUNDO BOTON 
+    private void bt_abriDoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_abriDoMouseClicked
+        // TODO add your handling code here:
+        if (seleccionado.showDialog(null, "Abrir Segundo Archivo") == JFileChooser.APPROVE_OPTION) {
+            archivo = seleccionado.getSelectedFile();
+            if (archivo.canRead()) {
+                if (archivo.getName().endsWith("txt")) {
+                    String contenido = gestion.Abrir(archivo);
+                    // Agregamos el segundo archivo de entrada 
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese el archivo de entrada");
+                }
+            }
+        }
+    }//GEN-LAST:event_bt_abriDoMouseClicked
+
+    private void bt_abriDoMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_abriDoMouseDragged
+        // TODO add your handling code here:
+        int x = evt.getX();
+        int y = evt.getY();
+        this.setLocation(x - xMouse, y - yMouse);
+    }//GEN-LAST:event_bt_abriDoMouseDragged
+
+    private void bt_abriDoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_abriDoMousePressed
+        // TODO add your handling code here:
+        xMouse = evt.getX();
+        yMouse = evt.getY();
+    }//GEN-LAST:event_bt_abriDoMousePressed
     /**
      *
      * @param args the command line arguments
@@ -627,6 +674,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> Corigen;
     private javax.swing.JTable Tabla_xd;
     private javax.swing.JTextPane areaDetalles;
+    private javax.swing.JLabel bt_abriDo;
     private javax.swing.JLabel bt_abrir;
     private javax.swing.JLabel bt_buscar;
     private javax.swing.JPanel bt_prueba;
