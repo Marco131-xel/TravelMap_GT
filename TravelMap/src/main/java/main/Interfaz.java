@@ -94,7 +94,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lamapa = new javax.swing.JLabel();
         destino = new javax.swing.JLabel();
-        bt_prueba = new javax.swing.JPanel();
+        bt_iniciar = new javax.swing.JPanel();
         ini = new javax.swing.JLabel();
         bt_abriDo = new javax.swing.JLabel();
 
@@ -224,12 +224,12 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(138, 138, 138))
+                .addGap(154, 154, 154))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 27, Short.MAX_VALUE)
-                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 849, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 50, Short.MAX_VALUE)
+                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -254,38 +254,38 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, -3, 910, 720));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, -3, 970, 720));
 
         destino.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         destino.setForeground(new java.awt.Color(255, 255, 255));
         destino.setText("Destino");
         jPanel1.add(destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 81, -1));
 
-        bt_prueba.setBackground(new java.awt.Color(51, 153, 255));
-        bt_prueba.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bt_prueba.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        bt_iniciar.setBackground(new java.awt.Color(51, 153, 255));
+        bt_iniciar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        bt_iniciar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
-                bt_pruebaMouseDragged(evt);
+                bt_iniciarMouseDragged(evt);
             }
         });
-        bt_prueba.addMouseListener(new java.awt.event.MouseAdapter() {
+        bt_iniciar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_pruebaMouseClicked(evt);
+                bt_iniciarMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                bt_pruebaMouseEntered(evt);
+                bt_iniciarMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                bt_pruebaMouseExited(evt);
+                bt_iniciarMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                bt_pruebaMousePressed(evt);
+                bt_iniciarMousePressed(evt);
             }
         });
 
@@ -293,24 +293,24 @@ public class Interfaz extends javax.swing.JFrame {
         ini.setForeground(new java.awt.Color(255, 255, 204));
         ini.setText("Iniciar");
 
-        javax.swing.GroupLayout bt_pruebaLayout = new javax.swing.GroupLayout(bt_prueba);
-        bt_prueba.setLayout(bt_pruebaLayout);
-        bt_pruebaLayout.setHorizontalGroup(
-            bt_pruebaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bt_pruebaLayout.createSequentialGroup()
+        javax.swing.GroupLayout bt_iniciarLayout = new javax.swing.GroupLayout(bt_iniciar);
+        bt_iniciar.setLayout(bt_iniciarLayout);
+        bt_iniciarLayout.setHorizontalGroup(
+            bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bt_iniciarLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(ini)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
-        bt_pruebaLayout.setVerticalGroup(
-            bt_pruebaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_pruebaLayout.createSequentialGroup()
+        bt_iniciarLayout.setVerticalGroup(
+            bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_iniciarLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ini)
                 .addContainerGap())
         );
 
-        jPanel1.add(bt_prueba, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 660, -1, -1));
+        jPanel1.add(bt_iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 660, -1, -1));
 
         bt_abriDo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-abrir-carpeta-50.png"))); // NOI18N
         bt_abriDo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -453,6 +453,21 @@ public class Interfaz extends javax.swing.JFrame {
         // Si no se encontraron datos para el viaje seleccionado, se borra el JTextPane
         areaDetalles.setText("");
     }
+    
+    // Creando funcion 
+   private void cambiarNodos(){
+       String nodOrigen = (String) Corigen.getSelectedItem();
+       String nodDestino = (String) Cdestino.getSelectedItem();
+       
+       // Bucle para buscar los datos de la listadatos 
+       for(Datos datos : listaDatos){
+           // Verficar si los datos coinciden con el origen y destino seleccionados
+           if(datos.getOrigen().equals(nodOrigen) && datos.getDestino().equals(nodDestino)){
+               g.selecGrafos(nodOrigen, nodDestino);
+               mostrarGrafo();
+           }
+       }
+   }
 
     // Mostar Grafo osea mapa
     private void mostrarGrafo() {
@@ -491,33 +506,34 @@ public class Interfaz extends javax.swing.JFrame {
         listOrigen.clear();
         listDestino.clear();
     }
-    private void bt_pruebaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMousePressed
+    private void bt_iniciarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_iniciarMousePressed
         // TODO add your handling code here
         xMouse = evt.getX();
         yMouse = evt.getY();
-    }//GEN-LAST:event_bt_pruebaMousePressed
+    }//GEN-LAST:event_bt_iniciarMousePressed
 
-    private void bt_pruebaMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseDragged
+    private void bt_iniciarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_iniciarMouseDragged
         // TODO add your handling code here:
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
         this.setLocation(x - xMouse, y - yMouse);
-    }//GEN-LAST:event_bt_pruebaMouseDragged
+    }//GEN-LAST:event_bt_iniciarMouseDragged
 
-    private void bt_pruebaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseClicked
+    private void bt_iniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_iniciarMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Este es un mensaje de información", "Información", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_bt_pruebaMouseClicked
+        cambiarNodos();
+        System.out.println("hubo click");
+    }//GEN-LAST:event_bt_iniciarMouseClicked
 
-    private void bt_pruebaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseEntered
+    private void bt_iniciarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_iniciarMouseEntered
         // TODO add your handling code here:
-        bt_prueba.setBackground(Color.BLUE);
-    }//GEN-LAST:event_bt_pruebaMouseEntered
+        bt_iniciar.setBackground(Color.BLUE);
+    }//GEN-LAST:event_bt_iniciarMouseEntered
 
-    private void bt_pruebaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_pruebaMouseExited
+    private void bt_iniciarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_iniciarMouseExited
         // TODO add your handling code here:
-        bt_prueba.setBackground(new Color(51, 153, 255));
-    }//GEN-LAST:event_bt_pruebaMouseExited
+        bt_iniciar.setBackground(new Color(51, 153, 255));
+    }//GEN-LAST:event_bt_iniciarMouseExited
 
     // BOTON BUSCAR
     private void bt_buscarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_buscarMousePressed
@@ -567,6 +583,7 @@ public class Interfaz extends javax.swing.JFrame {
                     // Agregamos el lugar donde se manda el archivo
                     leerArchivo(contenido);
                     g.generarGrafo(contenido);
+                    mostrarDetallesViaje();
                 } else {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese el archivo de entrada");
                 }
@@ -677,7 +694,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel bt_abriDo;
     private javax.swing.JLabel bt_abrir;
     private javax.swing.JLabel bt_buscar;
-    private javax.swing.JPanel bt_prueba;
+    private javax.swing.JPanel bt_iniciar;
     private javax.swing.JLabel destino;
     private javax.swing.JLabel detalles;
     private javax.swing.JLabel ini;

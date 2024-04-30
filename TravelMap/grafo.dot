@@ -1,5 +1,7 @@
 digraph G {
-graph [ratio=0.5];
+	graph [ratio=0.5];
+	node [shape=circle, style=filled, fillcolor="#009900", fontcolor="#FFFFCC", fixedsize=false];
+	edge [color="#8B4513"];
   "AltaVerapaz" -> "SantaMaríadeJesús" [label="85"];
   "Petén" -> "CiudadVieja" [label="24"];
 }
