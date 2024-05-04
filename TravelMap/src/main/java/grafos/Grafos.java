@@ -1,11 +1,13 @@
 package grafos;
 
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class Grafos {
 
@@ -41,71 +43,45 @@ public class Grafos {
 
     public void selecGrafos(String oriSelect, String destiSelect) {
         try {
-            // Abrir el archivo dot
+            // Leer el archivo dot
             File dotFile = new File("grafo.dot");
-            BufferedReader reader = new BufferedReader(new FileReader(dotFile));
-            StringBuilder strinBu = new StringBuilder();
+            FileReader fileReader = new FileReader(dotFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
+            StringBuilder dotContent = new StringBuilder();
 
-            // Leer el archivo línea por línea
-            while ((line = reader.readLine()) != null) {
-                // Modificar las líneas que definen los nodos para cambiar los colores
-                if (line.contains("node [shape=circle")) {
-                    if (line.contains(oriSelect)) {
-                        line = line.replace("fillcolor=\"#009900\"", "fillcolor=\"#FF0000\""); // Cambiar a rojo
-                    } else if (line.contains(destiSelect)) {
-                        line = line.replace("fillcolor=\"#009900\"", "fillcolor=\"#0000FF\""); // Cambiar a azul
-                    }
-                }
+            while ((line = bufferedReader.readLine()) != null) {
+                dotContent.append(line).append("\n");
+            }
+            bufferedReader.close();
+            // Obtener el contenido del archivo DOT como un arreglo de líneas
+            String[] dotLines = dotContent.toString().split("\\r?\\n");
+            StringBuilder newDotContent = new StringBuilder();
+
+            // Recorrer cada línea del archivo DOT
+            for (String dotLine : dotLines) {
                 // Agregar la línea al nuevo contenido
-                strinBu.append(line).append("\n");
+                newDotContent.append(dotLine).append("\n");
+
+                // Verificar si la línea contiene la relación entre oriSelect y destiSelect
+                if (dotLine.contains("\"" + oriSelect + "\" -> \"" + destiSelect + "\"")) {
+                    // Agregar las líneas para establecer el color de oriSelect y destiSelect
+                    newDotContent.append("\"" + oriSelect + "\" [fillcolor=\"red\"];");
+                    newDotContent.append("\"" + destiSelect + "\" [fillcolor=\"red\"];\n");
+                }
             }
-            reader.close();
-            // Escribir el nuevo contenido en el archivo dot
-            FileWriter writer = new FileWriter(dotFile);
-            BufferedWriter buffer = new BufferedWriter(writer);
-            buffer.write(strinBu.toString());
-            buffer.close();
 
-            // Generar la nueva imagen del grafo
-            nuevaImagenDot("grafo.dot", "grafo.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+            // Escribir el contenido modificado en el archivo dot
+            FileWriter fileWriter = new FileWriter(dotFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(newDotContent.toString());
+            bufferedWriter.close();
 
-    public void nuevoGrafo(String contenido) {
-        // Generar el nuevo archivo dot
-        nuevoDot(contenido);
-        // Generar el archivo de imagen 
-        nuevaImagenDot("grafo.dot", "grafo.png");
-    }
-
-    private void nuevoDot(String contenido) {
-        try {
-            // Escribir el contenido en el archivo dot
-            FileWriter writer = new FileWriter("grafo.dot");
-            BufferedWriter buffer = new BufferedWriter(writer);
-            buffer.write(contenido);
-            buffer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void nuevaImagenDot(String inputDot, String outImage) {
-        try {
-            // Ejecutar el comando para convetir el archivo dot en una imagen 
-            ProcessBuilder pb = new ProcessBuilder("dot", "-Tpng", inputDot, "-o", outImage);
+            // Llamar a Graphviz para regenerar la imagen del grafo
+            ProcessBuilder pb = new ProcessBuilder("dot", "-Tpng", "-o", "grafo.png", "grafo.dot");
             Process p = pb.start();
-
-            // esperar a que el proceso termine
             p.waitFor();
-            // Verificar si ocurrio algun error
-            if (p.exitValue() != 0) {
-                // Ocurrio un error durante la ejecucion del comando 
-                System.out.println("Error al genera nueva imagen");
-            }
+            System.out.println("Grafo actualizado corectamente");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
