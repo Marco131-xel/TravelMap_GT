@@ -1,7 +1,7 @@
 package main;
-
 import archivo.*;
 import grafos.*;
+import nodos.*;
 import java.io.*;
 import java.awt.Color;
 import javax.swing.JFileChooser;
@@ -20,7 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
  * @author marco
  */
 public class Interfaz extends javax.swing.JFrame {
@@ -29,8 +28,9 @@ public class Interfaz extends javax.swing.JFrame {
     File archivo;
     GestionArchivos gestion = new GestionArchivos();
     Grafos g = new Grafos();
-    private List<Datos> listaDatos;
+    private List<datos.Datos> listaDatos = new ArrayList<>();
     private List<Trafico> listaTrafico;
+    private Nodos nodos;
 
     /**
      * Creates new form Main
@@ -46,6 +46,7 @@ public class Interfaz extends javax.swing.JFrame {
         areaDetalles.setEditable(false);
         areaDetalles.setFocusable(false);
         areaDetalles.setCursor(null);
+        //this.nodos = new Nodos(listaDatos);
         // Listener de cambio de seleccion al JComboBox de Origen
         Corigen.addItemListener(new ItemListener() {
             @Override
@@ -120,9 +121,11 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mapaMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 mapaMouseEntered(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 mapaMousePressed(evt);
             }
@@ -140,6 +143,7 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_buscarMouseClicked(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bt_buscarMousePressed(evt);
             }
@@ -158,9 +162,11 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_abrirMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 bt_abrirMouseEntered(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bt_abrirMousePressed(evt);
             }
@@ -195,15 +201,15 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 204));
 
         Tabla_xd.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Origen ", "Destino", "Tiempo_V", "Tiempo_P", "Gasolina", "Energia", "Distancia"
-            }
+                new Object[][]{
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null}
+                },
+                new String[]{
+                        "Origen ", "Destino", "Tiempo_V", "Tiempo_P", "Gasolina", "Energia", "Distancia"
+                }
         ));
         jScrollPane1.setViewportView(Tabla_xd);
 
@@ -220,44 +226,44 @@ public class Interfaz extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(154, 154, 154))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 50, Short.MAX_VALUE)
-                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(76, 76, 76)
-                                .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jLabel1)))
-                .addGap(34, 34, 34))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(154, 154, 154))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(0, 50, Short.MAX_VALUE)
+                                                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jLabel2)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addGap(76, 76, 76)
+                                                                .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                .addComponent(jLabel1)))
+                                .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(80, 80, 80)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20))
         );
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, -3, 970, 720));
@@ -278,12 +284,15 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_iniciarMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 bt_iniciarMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 bt_iniciarMouseExited(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bt_iniciarMousePressed(evt);
             }
@@ -296,18 +305,18 @@ public class Interfaz extends javax.swing.JFrame {
         javax.swing.GroupLayout bt_iniciarLayout = new javax.swing.GroupLayout(bt_iniciar);
         bt_iniciar.setLayout(bt_iniciarLayout);
         bt_iniciarLayout.setHorizontalGroup(
-            bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bt_iniciarLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(ini)
-                .addContainerGap(26, Short.MAX_VALUE))
+                bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(bt_iniciarLayout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(ini)
+                                .addContainerGap(26, Short.MAX_VALUE))
         );
         bt_iniciarLayout.setVerticalGroup(
-            bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_iniciarLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ini)
-                .addContainerGap())
+                bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_iniciarLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ini)
+                                .addContainerGap())
         );
 
         jPanel1.add(bt_iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 660, -1, -1));
@@ -323,6 +332,7 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_abriDoMouseClicked(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bt_abriDoMousePressed(evt);
             }
@@ -332,12 +342,12 @@ public class Interfaz extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
         );
 
         pack();
@@ -363,7 +373,6 @@ public class Interfaz extends javax.swing.JFrame {
                 int consumoGas = Integer.parseInt(partes[4]);
                 int desgastePersona = Integer.parseInt(partes[5]);
                 int distancia = Integer.parseInt(partes[6]);
-
                 // Agregar los lugares a las listas
                 if (!listOrigen.contains(origen)) {
                     listOrigen.add(origen);
@@ -376,6 +385,8 @@ public class Interfaz extends javax.swing.JFrame {
                 Datos datos = new Datos(origen, destino, tiempoVehiculo, tiempoPie, consumoGas, desgastePersona, distancia);
                 listaDatos.add(datos);
             }
+            // Actualizar el objeto nodos con la listaDatos
+            this.nodos = new Nodos(listaDatos);
 
             // Mostrar datos en la tabla
             DefaultTableModel model = (DefaultTableModel) Tabla_xd.getModel();
@@ -384,13 +395,13 @@ public class Interfaz extends javax.swing.JFrame {
             // Iteramos sobre la lista de datos 
             for (Datos datos : listaDatos) {
                 Object[] fila = {
-                    datos.getOrigen(),
-                    datos.getDestino(),
-                    datos.getTiempo_vehiculo(),
-                    datos.getTiempo_pie(),
-                    datos.getConsumo_gas(),
-                    datos.getDesgaste_persona(),
-                    datos.getDistancia()
+                        datos.getOrigen(),
+                        datos.getDestino(),
+                        datos.getTiempo_vehiculo(),
+                        datos.getTiempo_pie(),
+                        datos.getConsumo_gas(),
+                        datos.getDesgaste_persona(),
+                        datos.getDistancia()
                 };
                 model.addRow(fila);
             }
@@ -436,38 +447,70 @@ public class Interfaz extends javax.swing.JFrame {
         String origenSelect = (String) Corigen.getSelectedItem();
         String destinoSelect = (String) Cdestino.getSelectedItem();
 
-        // Bucle para buscar el viaje correspondiente en la lista de datos
-        for (Datos datos : listaDatos) {
-            // Verificar si los datos coinciden con el origen y destino seleccionados
-            if (datos.getOrigen().equals(origenSelect) && datos.getDestino().equals(destinoSelect)) {
-                // Mostrar los detalles del viaje en el JTextPane
-                areaDetalles.setText("Tiempo Vehículo: " + datos.getTiempo_vehiculo() + " Horas" + "\n"
-                        + "Tiempo Pie: " + datos.getTiempo_pie() + " Horas" + "\n"
-                        + "Consumo de Gas: " + datos.getConsumo_gas() + " Galones" + "\n"
-                        + "Desgaste Persona: " + datos.getDesgaste_persona() + " Cal" + "\n"
-                        + "Distancia: " + datos.getDistancia() + " Km");
-                // Si encontramos el viaje correspondiente, salimos del bucle
-                return;
+        // Buscar detalles de la ruta directa
+        Datos detallesRutaDirecta = nodos.detallesRutaDirecta(listaDatos, origenSelect, destinoSelect);
+        // Construir el texto de los detalles de las rutas directas e indirectas
+        StringBuilder detallesTexto = new StringBuilder();
+
+        // Si se encontraron detalles de la ruta directa, mostrarlos
+        if (detallesRutaDirecta != null) {
+            detallesTexto.append("Detalles de la ruta directa:\n")
+                    .append("Tiempo Vehículo: ").append(detallesRutaDirecta.getTiempo_vehiculo()).append(" Horas\n")
+                    .append("Tiempo Pie: ").append(detallesRutaDirecta.getTiempo_pie()).append(" Horas\n")
+                    .append("Consumo de Gas: ").append(detallesRutaDirecta.getConsumo_gas()).append(" Galones\n")
+                    .append("Desgaste Persona: ").append(detallesRutaDirecta.getDesgaste_persona()).append(" Cal\n")
+                    .append("Distancia: ").append(detallesRutaDirecta.getDistancia()).append(" Km\n\n");
+        } else {
+            detallesTexto.append("No hay Rutas Directas\n");
+        }
+
+        // Buscar rutas indirectas
+        List<List<Datos>> rutasIndirectas = nodos.rutaIndirecta(listaDatos, origenSelect, destinoSelect);
+        if (!rutasIndirectas.isEmpty()) {
+            detallesTexto.append("Rutas Indirectas Encontradas:\n");
+            for (List<Datos> ruta : rutasIndirectas) {
+                detallesTexto.append("Ruta:\n");
+                double tiempoVehiculoTotal = 0.0;
+                double tiempoPieTotal = 0.0;
+                double consumoGasTotal = 0.0;
+                double desgastePersonaTotal = 0.0;
+                double distanciaTotal = 0.0;
+                for (int i = 1; i < ruta.size(); i++) { // Comenzamos desde el segundo nodo para calcular valores acumulados
+                    Datos datosAnteriores = ruta.get(i - 1);
+                    Datos datosActuales = ruta.get(i);
+                    tiempoVehiculoTotal += datosActuales.getTiempo_vehiculo();
+                    tiempoPieTotal += datosActuales.getTiempo_pie();
+                    consumoGasTotal += datosActuales.getConsumo_gas();
+                    desgastePersonaTotal += datosActuales.getDesgaste_persona();
+                    distanciaTotal += datosActuales.getDistancia();
+                    detallesTexto.append("- Origen: ").append(datosAnteriores.getDestino()).append(", Destino: ").append(datosActuales.getDestino()).append("\n");
+                }
+                detallesTexto.append("Tiempo Vehículo Total: ").append(tiempoVehiculoTotal).append(" Horas\n");
+                detallesTexto.append("Tiempo Pie Total: ").append(tiempoPieTotal).append(" Horas\n");
+                detallesTexto.append("Consumo de Gas Total: ").append(consumoGasTotal).append(" Galones\n");
+                detallesTexto.append("Desgaste Persona Total: ").append(desgastePersonaTotal).append(" Cal\n");
+                detallesTexto.append("Distancia Total: ").append(distanciaTotal).append(" Km\n");
             }
         }
-        // Si no se encontraron datos para el viaje seleccionado, se borra el JTextPane
-        areaDetalles.setText("");
+
+        // Mostrar los detalles de las rutas directas e indirectas
+        areaDetalles.setText(detallesTexto.toString());
     }
-    
-    // Creando funcion 
-   private void cambiarNodos(){
-       String nodOrigen = (String) Corigen.getSelectedItem();
-       String nodDestino = (String) Cdestino.getSelectedItem();
-       
-       // Bucle para buscar los datos de la listadatos 
-       for(Datos datos : listaDatos){
-           // Verficar si los datos coinciden con el origen y destino seleccionados
-           if(datos.getOrigen().equals(nodOrigen) && datos.getDestino().equals(nodDestino)){
-               g.selecGrafos(nodOrigen, nodDestino);
-               mostrarGrafo();
-           }
-       }
-   }
+
+    // Creando funcion
+    private void cambiarNodos() {
+        String nodOrigen = (String) Corigen.getSelectedItem();
+        String nodDestino = (String) Cdestino.getSelectedItem();
+
+        // Bucle para buscar los datos de la listadatos
+        for (Datos datos : listaDatos) {
+            // Verficar si los datos coinciden con el origen y destino seleccionados
+            if (datos.getOrigen().equals(nodOrigen) && datos.getDestino().equals(nodDestino)) {
+                g.selecGrafos(nodOrigen, nodDestino);
+                mostrarGrafo();
+            }
+        }
+    }
 
     // Mostar Grafo osea mapa
     private void mostrarGrafo() {
@@ -506,6 +549,7 @@ public class Interfaz extends javax.swing.JFrame {
         listOrigen.clear();
         listDestino.clear();
     }
+
     private void bt_iniciarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_iniciarMousePressed
         // TODO add your handling code here
         xMouse = evt.getX();
@@ -649,15 +693,15 @@ public class Interfaz extends javax.swing.JFrame {
         xMouse = evt.getX();
         yMouse = evt.getY();
     }//GEN-LAST:event_bt_abriDoMousePressed
+
     /**
-     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
