@@ -12,14 +12,4 @@ digraph G {
   "SanMarcos" -> "SanBartoloméMilpasAltas" [label="55"];
   "Huehuetenango" -> "SanLucasSacatepéquez" [label="62"];
   "Quiché" -> "SantaLucíaMilpasAltas" [label="32"];
-  "Quiché" -> "Quetzaltenango" [label="200"];
-  "Huehuetenango" -> "Guatemala" [label="62"];
-  "Capital" -> "Huehuetenango" [label="62"];
-  "Suchitepequez" -> "Sololá" [label="62"];
-  "Retalhuleu" -> "Huehuetenango" [label="100"];
-  "Petén" -> "Sololá" [label="85"];
-  "AltaVerapaz" -> "Sololá" [label="85"];
-  "Quetzaltenango" -> "Suchitepequez" [label="85"];
-  "SanLucasSacatepéquez" -> "Sololá" [label="85"];
-  "Quetzaltenango" -> "SanLucasSacatepéquez" [label="100"];
 }
