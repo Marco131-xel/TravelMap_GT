@@ -4,6 +4,7 @@ digraph G {
 	edge [color="#8B4513"];
   "AltaVerapaz" -> "SantaMaríadeJesús" [label="85"];
   "Petén" -> "CiudadVieja" [label="24"];
+"Petén" [fillcolor="red"];"CiudadVieja" [fillcolor="red"];
   "Quetzaltenango" -> "Retalhuleu" [label="100"];
   "Retalhuleu" -> "Quetzaltenango" [label="100"];
   "SanMarcos" -> "Quetzaltenango" [label="250"];
@@ -14,9 +15,11 @@ digraph G {
   "Quiché" -> "Quetzaltenango" [label="200"];
   "Huehuetenango" -> "Guatemala" [label="62"];
   "Capital" -> "Huehuetenango" [label="62"];
-  "Quetzaltenango" -> "Sololá" [label="85"];
   "Suchitepequez" -> "Sololá" [label="62"];
   "Retalhuleu" -> "Huehuetenango" [label="100"];
   "Petén" -> "Sololá" [label="85"];
   "AltaVerapaz" -> "Sololá" [label="85"];
+  "Quetzaltenango" -> "Suchitepequez" [label="85"];
+  "SanLucasSacatepéquez" -> "Sololá" [label="85"];
+  "Quetzaltenango" -> "SanLucasSacatepéquez" [label="100"];
 }

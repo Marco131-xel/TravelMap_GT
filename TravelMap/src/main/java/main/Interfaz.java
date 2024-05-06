@@ -1,12 +1,16 @@
 package main;
+
 import archivo.*;
 import grafos.*;
 import nodos.*;
+
 import java.io.*;
 import java.awt.Color;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
 import datos.*;
+
 import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -17,7 +21,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * @author marco
@@ -30,7 +33,7 @@ public class Interfaz extends javax.swing.JFrame {
     Grafos g = new Grafos();
     private List<datos.Datos> listaDatos = new ArrayList<>();
     private List<Trafico> listaTrafico;
-    private Nodos nodos;
+    private Rutas nodos;
 
     /**
      * Creates new form Main
@@ -38,7 +41,6 @@ public class Interfaz extends javax.swing.JFrame {
     int xMouse, yMouse;
     private List<String> listOrigen = new ArrayList<>();
     private List<String> listDestino = new ArrayList<>();
-    //List<Datos> listaDatos;
 
     public Interfaz() {
         initComponents();
@@ -46,7 +48,6 @@ public class Interfaz extends javax.swing.JFrame {
         areaDetalles.setEditable(false);
         areaDetalles.setFocusable(false);
         areaDetalles.setCursor(null);
-        //this.nodos = new Nodos(listaDatos);
         // Listener de cambio de seleccion al JComboBox de Origen
         Corigen.addItemListener(new ItemListener() {
             @Override
@@ -88,8 +89,6 @@ public class Interfaz extends javax.swing.JFrame {
         areaDetalles = new javax.swing.JTextPane();
         origen = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Tabla_xd = new javax.swing.JTable();
         mapaGrafo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -107,7 +106,7 @@ public class Interfaz extends javax.swing.JFrame {
         detalles.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         detalles.setForeground(new java.awt.Color(255, 255, 204));
         detalles.setText("Detalles");
-        jPanel1.add(detalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, -1, -1));
+        jPanel1.add(detalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
 
         mapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-mapa-64.png"))); // NOI18N
         mapa.setText("jLabel5");
@@ -121,11 +120,9 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mapaMouseClicked(evt);
             }
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 mapaMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 mapaMousePressed(evt);
             }
@@ -143,12 +140,11 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_buscarMouseClicked(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bt_buscarMousePressed(evt);
             }
         });
-        jPanel1.add(bt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, 50, 50));
+        jPanel1.add(bt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 570, 50, 50));
 
         bt_abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-abrir-carpeta-50.png"))); // NOI18N
         bt_abrir.setText("jLabel4");
@@ -162,11 +158,9 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_abrirMouseClicked(evt);
             }
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 bt_abrirMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bt_abrirMousePressed(evt);
             }
@@ -179,7 +173,7 @@ public class Interfaz extends javax.swing.JFrame {
                 CorigenActionPerformed(evt);
             }
         });
-        jPanel1.add(Corigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 150, -1));
+        jPanel1.add(Corigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 150, -1));
 
         Cdestino.setBackground(new java.awt.Color(255, 255, 204));
         Cdestino.addActionListener(new java.awt.event.ActionListener() {
@@ -187,31 +181,18 @@ public class Interfaz extends javax.swing.JFrame {
                 CdestinoActionPerformed(evt);
             }
         });
-        jPanel1.add(Cdestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 150, -1));
+        jPanel1.add(Cdestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 150, -1));
 
         jScrollPane3.setViewportView(areaDetalles);
 
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 188, 130));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 230, 130));
 
         origen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         origen.setForeground(new java.awt.Color(255, 255, 255));
         origen.setText("Origen");
-        jPanel1.add(origen, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+        jPanel1.add(origen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 204));
-
-        Tabla_xd.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null}
-                },
-                new String[]{
-                        "Origen ", "Destino", "Tiempo_V", "Tiempo_P", "Gasolina", "Energia", "Distancia"
-                }
-        ));
-        jScrollPane1.setViewportView(Tabla_xd);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/xd.png"))); // NOI18N
 
@@ -226,52 +207,45 @@ public class Interfaz extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(154, 154, 154))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(0, 50, Short.MAX_VALUE)
-                                                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(jLabel2)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addGap(76, 76, 76)
-                                                                .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                                .addComponent(jLabel1)))
-                                .addGap(34, 34, 34))
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(24, Short.MAX_VALUE)
+                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 1002, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)))
+                .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jLabel1))
-                                .addGap(18, 18, 18)
-                                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20))
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(107, 107, 107))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, -3, 970, 720));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, -3, 1060, 720));
 
         destino.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         destino.setForeground(new java.awt.Color(255, 255, 255));
         destino.setText("Destino");
-        jPanel1.add(destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 81, -1));
+        jPanel1.add(destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 81, -1));
 
         bt_iniciar.setBackground(new java.awt.Color(51, 153, 255));
         bt_iniciar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -284,15 +258,12 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_iniciarMouseClicked(evt);
             }
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 bt_iniciarMouseEntered(evt);
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 bt_iniciarMouseExited(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bt_iniciarMousePressed(evt);
             }
@@ -305,21 +276,21 @@ public class Interfaz extends javax.swing.JFrame {
         javax.swing.GroupLayout bt_iniciarLayout = new javax.swing.GroupLayout(bt_iniciar);
         bt_iniciar.setLayout(bt_iniciarLayout);
         bt_iniciarLayout.setHorizontalGroup(
-                bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(bt_iniciarLayout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(ini)
-                                .addContainerGap(26, Short.MAX_VALUE))
+            bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bt_iniciarLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(ini)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         bt_iniciarLayout.setVerticalGroup(
-                bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_iniciarLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ini)
-                                .addContainerGap())
+            bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_iniciarLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ini)
+                .addContainerGap())
         );
 
-        jPanel1.add(bt_iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 660, -1, -1));
+        jPanel1.add(bt_iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 550, -1, -1));
 
         bt_abriDo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-abrir-carpeta-50.png"))); // NOI18N
         bt_abriDo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -332,22 +303,23 @@ public class Interfaz extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_abriDoMouseClicked(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 bt_abriDoMousePressed(evt);
             }
         });
-        jPanel1.add(bt_abriDo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 570, 50, 50));
+        jPanel1.add(bt_abriDo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 50, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -386,26 +358,7 @@ public class Interfaz extends javax.swing.JFrame {
                 listaDatos.add(datos);
             }
             // Actualizar el objeto nodos con la listaDatos
-            this.nodos = new Nodos(listaDatos);
-
-            // Mostrar datos en la tabla
-            DefaultTableModel model = (DefaultTableModel) Tabla_xd.getModel();
-            // Limpiamos la tabla
-            model.setRowCount(0);
-            // Iteramos sobre la lista de datos 
-            for (Datos datos : listaDatos) {
-                Object[] fila = {
-                        datos.getOrigen(),
-                        datos.getDestino(),
-                        datos.getTiempo_vehiculo(),
-                        datos.getTiempo_pie(),
-                        datos.getConsumo_gas(),
-                        datos.getDesgaste_persona(),
-                        datos.getDistancia()
-                };
-                model.addRow(fila);
-            }
-            jScrollPane1.repaint();
+            this.nodos = new Rutas(listaDatos);
 
             // agregar los lugares a mi Jcombox 
             Corigen.setModel(new DefaultComboBoxModel<>(listOrigen.toArray(new String[0])));
@@ -448,7 +401,7 @@ public class Interfaz extends javax.swing.JFrame {
         String destinoSelect = (String) Cdestino.getSelectedItem();
 
         // Buscar detalles de la ruta directa
-        Datos detallesRutaDirecta = nodos.detallesRutaDirecta(listaDatos, origenSelect, destinoSelect);
+        Datos detallesRutaDirecta = nodos.rutaDirecta(listaDatos, origenSelect, destinoSelect);
         // Construir el texto de los detalles de las rutas directas e indirectas
         StringBuilder detallesTexto = new StringBuilder();
 
@@ -465,7 +418,7 @@ public class Interfaz extends javax.swing.JFrame {
         }
 
         // Buscar rutas indirectas
-        List<List<Datos>> rutasIndirectas = nodos.rutaIndirecta(listaDatos, origenSelect, destinoSelect);
+        List<List<Datos>> rutasIndirectas = nodos.rutaIndirectas(listaDatos, origenSelect, destinoSelect);
         if (!rutasIndirectas.isEmpty()) {
             detallesTexto.append("Rutas Indirectas Encontradas:\n");
             for (List<Datos> ruta : rutasIndirectas) {
@@ -537,10 +490,6 @@ public class Interfaz extends javax.swing.JFrame {
         // Limpiar el JLabel 
         mapaGrafo.setIcon(null);
         mapaGrafo.repaint();
-
-        // Limpiar la tabla 
-        DefaultTableModel model = (DefaultTableModel) Tabla_xd.getModel();
-        model.setRowCount(0);
         // Limpiar el textarea
         areaDetalles.setText("");
         // Limpiar los JComboBox
@@ -733,7 +682,6 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Cdestino;
     private javax.swing.JComboBox<String> Corigen;
-    private javax.swing.JTable Tabla_xd;
     private javax.swing.JTextPane areaDetalles;
     private javax.swing.JLabel bt_abriDo;
     private javax.swing.JLabel bt_abrir;
@@ -746,7 +694,6 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lamapa;
     private javax.swing.JLabel mapa;
