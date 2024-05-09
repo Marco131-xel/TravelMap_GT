@@ -17,7 +17,7 @@ public class Grafos {
             FileWriter writer = new FileWriter("grafo.dot");
             BufferedWriter buffer = new BufferedWriter(writer);
             buffer.write("digraph G {\n");
-            buffer.write("\tgraph [ratio=0.5];\n");
+            buffer.write("\tgraph [ratio=0.5, bgcolor=\"#FFFFCC\"];\n");
             buffer.write("\tnode [shape=circle, style=filled, fillcolor=\"#009900\", fontcolor=\"#FFFFCC\", fixedsize=false];\n");
             buffer.write("\tedge [color=\"#8B4513\"];\n");
 

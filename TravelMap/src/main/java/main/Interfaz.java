@@ -2,8 +2,6 @@ package main;
 
 import archivo.*;
 import grafos.*;
-import nodos.*;
-
 import java.io.*;
 import java.awt.Color;
 import javax.swing.JFileChooser;
@@ -12,15 +10,17 @@ import javax.swing.JOptionPane;
 import datos.*;
 
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import nodos.Rutas;
 
 /**
  * @author marco
@@ -33,7 +33,6 @@ public class Interfaz extends javax.swing.JFrame {
     Grafos g = new Grafos();
     private List<datos.Datos> listaDatos = new ArrayList<>();
     private List<Trafico> listaTrafico;
-    private Rutas nodos;
 
     /**
      * Creates new form Main
@@ -48,6 +47,9 @@ public class Interfaz extends javax.swing.JFrame {
         areaDetalles.setEditable(false);
         areaDetalles.setFocusable(false);
         areaDetalles.setCursor(null);
+        Resultados.setEditable(false);
+        Resultados.setFocusable(false);
+        Resultados.setCursor(null);
         // Listener de cambio de seleccion al JComboBox de Origen
         Corigen.addItemListener(new ItemListener() {
             @Override
@@ -66,7 +68,74 @@ public class Interfaz extends javax.swing.JFrame {
                 }
             }
         });
+        // ActionListener para el botón BT_caminar
+        BT_caminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Limpiar JComboBox
+                JRUTAS.removeAllItems();
 
+                // Agregar opciones al JComboBox
+                JRUTAS.addItem("La mejor ruta al desgaste");
+                JRUTAS.addItem("La mejor ruta a la distancia c");
+                JRUTAS.addItem("La mejor ruta al desgaste y la distancia");
+            }
+        });
+        // ActionListener para el botón BT_vehiculo
+        BT_vehiculo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Limpiar JComboBox
+                JRUTAS.removeAllItems();
+
+                // Agregar opciones al JComboBox
+                JRUTAS.addItem("La mejor ruta al combustible");
+                JRUTAS.addItem("La mejor ruta a la distancia v");
+                JRUTAS.addItem("La mejor ruta al combustible y la distancia");
+            }
+        });
+
+        // ActionListener para el JComboBox JRUTAS
+        JRUTAS.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Obtener la opción seleccionada
+                String opcionSeleccionada = (String) JRUTAS.getSelectedItem();
+
+                // Calcular y mostrar las rutas
+                if (opcionSeleccionada != null) {
+                    switch (opcionSeleccionada) {
+                        case "La mejor ruta al desgaste":
+                            // Calcular y mostrar la mejor ruta en base al desgaste físico si es caminando
+                            mostrarMejorRutaPorDesgasteFisico();
+                            break;
+                        case "La mejor ruta a la distancia c":
+                            // Calcular y mostrar la mejor ruta en base a la distancia
+                            mostrarMejorRutaPorDistancia();
+                            break;
+                        case "La mejor ruta al desgaste y la distancia":
+                            // Calcular y mostrar la mejor ruta en base al desgaste físico y la distancia si es caminando
+                            mostrarMejorRutaPorDesgasteFisicoYDistancia();
+                            break;
+                        case "La mejor ruta al combustible":
+                            // Calcular y mostrar la mejor ruta en vehiculo
+                            mostrarMejorRutaCombustible();
+                            break;
+                        case "La mejor ruta a la distancia v":
+                            // Calcular y mostrar la mejor distancia en vehiculo
+                            mostarMejoRutaDistanciaV();
+                            break;
+                        case "La mejor ruta al combustible y la distancia":
+                            // Calcular y mostar la mejor ruta en combustible y distancia 
+                            mostrarMejorRutaCombustibleDistancia();
+                            break;
+                        default:
+                            // No hacer nada
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -97,6 +166,14 @@ public class Interfaz extends javax.swing.JFrame {
         bt_iniciar = new javax.swing.JPanel();
         ini = new javax.swing.JLabel();
         bt_abriDo = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        BT_caminar = new javax.swing.JRadioButton();
+        BT_vehiculo = new javax.swing.JRadioButton();
+        JRUTAS = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Resultados = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,7 +183,7 @@ public class Interfaz extends javax.swing.JFrame {
         detalles.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         detalles.setForeground(new java.awt.Color(255, 255, 204));
         detalles.setText("Detalles");
-        jPanel1.add(detalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
+        jPanel1.add(detalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
 
         mapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-mapa-64.png"))); // NOI18N
         mapa.setText("jLabel5");
@@ -144,7 +221,7 @@ public class Interfaz extends javax.swing.JFrame {
                 bt_buscarMousePressed(evt);
             }
         });
-        jPanel1.add(bt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 570, 50, 50));
+        jPanel1.add(bt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 670, 50, 60));
 
         bt_abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-abrir-carpeta-50.png"))); // NOI18N
         bt_abrir.setText("jLabel4");
@@ -173,7 +250,7 @@ public class Interfaz extends javax.swing.JFrame {
                 CorigenActionPerformed(evt);
             }
         });
-        jPanel1.add(Corigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 150, -1));
+        jPanel1.add(Corigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 150, -1));
 
         Cdestino.setBackground(new java.awt.Color(255, 255, 204));
         Cdestino.addActionListener(new java.awt.event.ActionListener() {
@@ -181,16 +258,16 @@ public class Interfaz extends javax.swing.JFrame {
                 CdestinoActionPerformed(evt);
             }
         });
-        jPanel1.add(Cdestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 150, -1));
+        jPanel1.add(Cdestino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 150, -1));
 
         jScrollPane3.setViewportView(areaDetalles);
 
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 230, 130));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 230, 150));
 
         origen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         origen.setForeground(new java.awt.Color(255, 255, 255));
         origen.setText("Origen");
-        jPanel1.add(origen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
+        jPanel1.add(origen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 204));
 
@@ -209,43 +286,38 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(24, Short.MAX_VALUE)
-                        .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 1002, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)))
+                .addGap(17, 17, 17)
+                .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
                 .addGap(34, 34, 34))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 1227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(lamapa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(107, 107, 107))
+                .addComponent(mapaGrafo, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, -3, 1060, 720));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, -3, 1250, 760));
 
         destino.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         destino.setForeground(new java.awt.Color(255, 255, 255));
         destino.setText("Destino");
-        jPanel1.add(destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 81, -1));
+        jPanel1.add(destino, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 81, -1));
 
         bt_iniciar.setBackground(new java.awt.Color(51, 153, 255));
         bt_iniciar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -284,13 +356,13 @@ public class Interfaz extends javax.swing.JFrame {
         );
         bt_iniciarLayout.setVerticalGroup(
             bt_iniciarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bt_iniciarLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(bt_iniciarLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(ini)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(bt_iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 550, -1, -1));
+        jPanel1.add(bt_iniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 700, -1, -1));
 
         bt_abriDo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-abrir-carpeta-50.png"))); // NOI18N
         bt_abriDo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -307,7 +379,43 @@ public class Interfaz extends javax.swing.JFrame {
                 bt_abriDoMousePressed(evt);
             }
         });
-        jPanel1.add(bt_abriDo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 50, 50));
+        jPanel1.add(bt_abriDo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 50, 50));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Abrir Rutas");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Mapa");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Abrir Trafico");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, -1, -1));
+
+        BT_caminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BT_caminar.setForeground(new java.awt.Color(255, 255, 255));
+        BT_caminar.setText("Caminar");
+        BT_caminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_caminarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BT_caminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
+
+        BT_vehiculo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BT_vehiculo.setForeground(new java.awt.Color(255, 255, 255));
+        BT_vehiculo.setText("Vehiculo");
+        jPanel1.add(BT_vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 460, -1, -1));
+
+        jPanel1.add(JRUTAS, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 220, -1));
+
+        jScrollPane1.setViewportView(Resultados);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 220, 140));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -317,9 +425,7 @@ public class Interfaz extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -334,7 +440,7 @@ public class Interfaz extends javax.swing.JFrame {
             String[] lineas = contenido.split("\n");
             // Leer cada linea del archivo
             for (String linea : lineas) {
-                //System.out.println("Línea leída: " + linea);
+                //System.out.println("Linea leida: " + linea);
                 // Divide la linea en partes utilizando "|" como delimitador
                 String[] partes = linea.split("\\|");
                 // Extrae los datos de cada parte
@@ -357,8 +463,6 @@ public class Interfaz extends javax.swing.JFrame {
                 Datos datos = new Datos(origen, destino, tiempoVehiculo, tiempoPie, consumoGas, desgastePersona, distancia);
                 listaDatos.add(datos);
             }
-            // Actualizar el objeto nodos con la listaDatos
-            this.nodos = new Rutas(listaDatos);
 
             // agregar los lugares a mi Jcombox 
             Corigen.setModel(new DefaultComboBoxModel<>(listOrigen.toArray(new String[0])));
@@ -400,54 +504,50 @@ public class Interfaz extends javax.swing.JFrame {
         String origenSelect = (String) Corigen.getSelectedItem();
         String destinoSelect = (String) Cdestino.getSelectedItem();
 
-        // Buscar detalles de la ruta directa
-        Datos detallesRutaDirecta = nodos.rutaDirecta(listaDatos, origenSelect, destinoSelect);
-        // Construir el texto de los detalles de las rutas directas e indirectas
-        StringBuilder detallesTexto = new StringBuilder();
+        // Crear una instancia de la clase Rutas con la lista de datos
+        Rutas rutas = new Rutas(listaDatos);
+        // Llamar a la función recorreRutas para encontrar todas las rutas desde el origen seleccionado hasta el destino seleccionado
+        Map<String, List<List<Datos>>> todasLasRutas = rutas.recorreRutas(origenSelect, destinoSelect);
 
-        // Si se encontraron detalles de la ruta directa, mostrarlos
-        if (detallesRutaDirecta != null) {
-            detallesTexto.append("Detalles de la ruta directa:\n")
-                    .append("Tiempo Vehículo: ").append(detallesRutaDirecta.getTiempo_vehiculo()).append(" Horas\n")
-                    .append("Tiempo Pie: ").append(detallesRutaDirecta.getTiempo_pie()).append(" Horas\n")
-                    .append("Consumo de Gas: ").append(detallesRutaDirecta.getConsumo_gas()).append(" Galones\n")
-                    .append("Desgaste Persona: ").append(detallesRutaDirecta.getDesgaste_persona()).append(" Cal\n")
-                    .append("Distancia: ").append(detallesRutaDirecta.getDistancia()).append(" Km\n\n");
-        } else {
-            detallesTexto.append("No hay Rutas Directas\n");
-        }
+        // Construir el texto para mostrar en el JTextPane
+        StringBuilder detalles = new StringBuilder();
+        detalles.append("      --Viajes Disponibles--\n");
+        detalles.append("Rutas desde: ").append(origenSelect).append("\nhasta: ").append(destinoSelect).append("\n");
 
-        // Buscar rutas indirectas
-        List<List<Datos>> rutasIndirectas = nodos.rutaIndirectas(listaDatos, origenSelect, destinoSelect);
-        if (!rutasIndirectas.isEmpty()) {
-            detallesTexto.append("Rutas Indirectas Encontradas:\n");
-            for (List<Datos> ruta : rutasIndirectas) {
-                detallesTexto.append("Ruta:\n");
-                double tiempoVehiculoTotal = 0.0;
-                double tiempoPieTotal = 0.0;
-                double consumoGasTotal = 0.0;
-                double desgastePersonaTotal = 0.0;
-                double distanciaTotal = 0.0;
-                for (int i = 1; i < ruta.size(); i++) { // Comenzamos desde el segundo nodo para calcular valores acumulados
-                    Datos datosAnteriores = ruta.get(i - 1);
-                    Datos datosActuales = ruta.get(i);
-                    tiempoVehiculoTotal += datosActuales.getTiempo_vehiculo();
-                    tiempoPieTotal += datosActuales.getTiempo_pie();
-                    consumoGasTotal += datosActuales.getConsumo_gas();
-                    desgastePersonaTotal += datosActuales.getDesgaste_persona();
-                    distanciaTotal += datosActuales.getDistancia();
-                    detallesTexto.append("- Origen: ").append(datosAnteriores.getDestino()).append(", Destino: ").append(datosActuales.getDestino()).append("\n");
+        // Mostrar las rutas en el JTextPane
+        for (Map.Entry<String, List<List<Datos>>> entry : todasLasRutas.entrySet()) {
+            String destino = entry.getKey();
+            List<List<Datos>> rutasHaciaDestino = entry.getValue();
+            //detalles.append("Rutas hacia ").append(destino).append(":\n");
+            for (List<Datos> ruta : rutasHaciaDestino) {
+                detalles.append("\nRuta:\n");
+                String pasoAnterior = null;
+                for (Datos dato : ruta) {
+                    String origenRuta = dato.getOrigen();
+                    String destinoRuta = dato.getDestino();
+                    if (pasoAnterior != null && !origenRuta.equals(pasoAnterior)) {
+                        detalles.append("-Origen: ").append(pasoAnterior).append("\n");
+                        detalles.append("Destino: ").append(origenRuta).append("\n");
+                    }
+                    detalles.append("-Origen: ").append(origenRuta).append("\n");
+                    detalles.append("Destino: ").append(destinoRuta).append("\n");
+                    pasoAnterior = destinoRuta;
                 }
-                detallesTexto.append("Tiempo Vehículo Total: ").append(tiempoVehiculoTotal).append(" Horas\n");
-                detallesTexto.append("Tiempo Pie Total: ").append(tiempoPieTotal).append(" Horas\n");
-                detallesTexto.append("Consumo de Gas Total: ").append(consumoGasTotal).append(" Galones\n");
-                detallesTexto.append("Desgaste Persona Total: ").append(desgastePersonaTotal).append(" Cal\n");
-                detallesTexto.append("Distancia Total: ").append(distanciaTotal).append(" Km\n");
+                // Agregar datos calculados al final de la ruta
+                List<Datos> rutaCombinada = rutas.combinarRutaParcial(ruta);
+                for (Datos dato : rutaCombinada) {
+                    detalles.append("Tiempo en vehículo: ").append(Integer.toString(dato.getTiempo_vehiculo())).append(" Horas\n");
+                    detalles.append("Tiempo a pie: ").append(Integer.toString(dato.getTiempo_pie())).append(" Horas\n");
+                    detalles.append("Combustible: ").append(Integer.toString(dato.getConsumo_gas())).append(" Galones\n");
+                    detalles.append("Desgaste persona: ").append(Integer.toString(dato.getDesgaste_persona())).append(" Cal\n");
+                    detalles.append("Distancia: ").append(Integer.toString(dato.getDistancia())).append(" Km\n");
+                }
             }
+            detalles.append("\n");
         }
 
-        // Mostrar los detalles de las rutas directas e indirectas
-        areaDetalles.setText(detallesTexto.toString());
+        // Establecer el texto en el JTextPane
+        areaDetalles.setText(detalles.toString());
     }
 
     // Creando funcion
@@ -492,6 +592,7 @@ public class Interfaz extends javax.swing.JFrame {
         mapaGrafo.repaint();
         // Limpiar el textarea
         areaDetalles.setText("");
+        Resultados.setText("");
         // Limpiar los JComboBox
         Corigen.removeAllItems();
         Cdestino.removeAllItems();
@@ -499,6 +600,137 @@ public class Interfaz extends javax.swing.JFrame {
         listDestino.clear();
     }
 
+    // Función para mostrar la mejor ruta en base al desgaste físico si es caminando
+    private void mostrarMejorRutaPorDesgasteFisico() {
+        // Crear una instancia de la clase Rutas con la lista de datos
+        String origenSelect = (String) Corigen.getSelectedItem();
+        String destinoSelect = (String) Cdestino.getSelectedItem();
+
+        Rutas rutas = new Rutas(listaDatos);
+        rutas.encontrarRutas(origenSelect, destinoSelect);
+        List<Datos> mejorRuta = rutas.menorDesgaste();
+        if (mejorRuta != null) {
+            // Mostrar los detalles de la mejor ruta
+            StringBuilder detalles = new StringBuilder();
+            detalles.append("Mejor Ruta por Desgaste Físico (Caminando):\n");
+            detalles.append("Tiempo a pie: ").append(mejorRuta.get(0).getTiempo_pie()).append(" Horas\n");
+            detalles.append("Desgaste físico: ").append(mejorRuta.get(0).getDesgaste_persona()).append(" Cal\n");
+            detalles.append("Distancia: ").append(mejorRuta.get(0).getDistancia()).append(" Km\n");
+            Resultados.setText(detalles.toString());
+        } else {
+            Resultados.setText("No se encontro ninguna ruta");
+        }
+    }
+
+    // Función para mostrar la mejor ruta en base a la distancia
+    private void mostrarMejorRutaPorDistancia() {
+        // Implementa la lógica para calcular la mejor ruta por distancia y muestra los resultados
+        String origenSelect = (String) Corigen.getSelectedItem();
+        String destinoSelect = (String) Cdestino.getSelectedItem();
+
+        Rutas rutas = new Rutas(listaDatos);
+        rutas.encontrarRutas(origenSelect, destinoSelect);
+        List<Datos> mejorRuta = rutas.menorDistancia();
+        if (mejorRuta != null) {
+            // Mostrar los detalles de la mejor ruta
+            StringBuilder detalles = new StringBuilder();
+            detalles.append("Mejor Ruta por menor Distancia (Caminando):\n");
+            detalles.append("Tiempo a pie: ").append(mejorRuta.get(0).getTiempo_pie()).append(" Horas\n");
+            detalles.append("Desgaste físico: ").append(mejorRuta.get(0).getDesgaste_persona()).append(" Cal\n");
+            detalles.append("Distancia: ").append(mejorRuta.get(0).getDistancia()).append(" Km\n");
+            Resultados.setText(detalles.toString());
+        } else {
+            Resultados.setText("No se encontro ninguna ruta");
+        }
+    }
+
+    // Función para mostrar la mejor ruta en base al desgaste físico y la distancia si es caminando
+    private void mostrarMejorRutaPorDesgasteFisicoYDistancia() {
+        // Implementa la lógica para calcular la mejor ruta por desgaste físico y distancia si es caminando y muestra los resultados en RESULTADOS
+        String origenSelect = (String) Corigen.getSelectedItem();
+        String destinoSelect = (String) Cdestino.getSelectedItem();
+
+        Rutas rutas = new Rutas(listaDatos);
+        rutas.encontrarRutas(origenSelect, destinoSelect);
+        List<Datos> mejorRuta = rutas.menorDistanciaYDesgaste();
+        if (mejorRuta != null) {
+            // Mostrar los detalles de la mejor ruta
+            StringBuilder detalles = new StringBuilder();
+            detalles.append("Mejor Ruta por menor Distancia y Desgaste Fisico (Caminando):\n");
+            detalles.append("Tiempo a pie: ").append(mejorRuta.get(0).getTiempo_pie()).append(" Horas\n");
+            detalles.append("Desgaste físico: ").append(mejorRuta.get(0).getDesgaste_persona()).append(" Cal\n");
+            detalles.append("Distancia: ").append(mejorRuta.get(0).getDistancia()).append(" Km\n");
+            Resultados.setText(detalles.toString());
+        } else {
+            Resultados.setText("No se encontro ninguna ruta");
+        }
+    }
+
+    // Funcion para mostrar la mejor ruta en base al combustible
+    private void mostrarMejorRutaCombustible() {
+        String origenSelect = (String) Corigen.getSelectedItem();
+        String destinoSelect = (String) Cdestino.getSelectedItem();
+
+        Rutas rutas = new Rutas(listaDatos);
+        rutas.encontrarRutas(origenSelect, destinoSelect);
+        List<Datos> mejorRuta = rutas.menorCombustible();
+        if (mejorRuta != null) {
+            // Mostrar los detalles de la mejor ruta
+            StringBuilder detalles = new StringBuilder();
+            detalles.append("Mejor Ruta por menor Combustible (Vehiculo):\n");
+            detalles.append("Tiempo en Vehiculo: ").append(mejorRuta.get(0).getTiempo_vehiculo()).append(" Horas\n");
+            detalles.append("Combustible: ").append(mejorRuta.get(0).getConsumo_gas()).append(" Galones\n");
+            detalles.append("Distancia: ").append(mejorRuta.get(0).getDistancia()).append(" Km\n");
+            Resultados.setText(detalles.toString());
+        } else {
+            Resultados.setText("No se encontro ninguna ruta");
+        }
+    }
+
+    // Funcion para mostrar la mejor ruta en distancia para vehiculo
+    private void mostarMejoRutaDistanciaV() {
+        String origenSelect = (String) Corigen.getSelectedItem();
+        String destinoSelect = (String) Cdestino.getSelectedItem();
+
+        Rutas rutas = new Rutas(listaDatos);
+        rutas.encontrarRutas(origenSelect, destinoSelect);
+        List<Datos> mejorRuta = rutas.menorDistancia();
+        if (mejorRuta != null) {
+            // Mostrar los detalles de la mejor ruta
+            StringBuilder detalles = new StringBuilder();
+            detalles.append("Mejor Ruta por menor Distancia (Vehiculo):\n");
+            detalles.append("Tiempo en Vehiculo: ").append(mejorRuta.get(0).getTiempo_vehiculo()).append(" Horas\n");
+            detalles.append("Combustible: ").append(mejorRuta.get(0).getConsumo_gas()).append(" Galones\n");
+            detalles.append("Distancia: ").append(mejorRuta.get(0).getDistancia()).append(" Km\n");
+            Resultados.setText(detalles.toString());
+        } else {
+            Resultados.setText("No se encontro ninguna ruta");
+        }
+    }
+
+    // Funcion para mostrar la mejor ruta en base combustible y distancia 
+    private void mostrarMejorRutaCombustibleDistancia() {
+        String origenSelect = (String) Corigen.getSelectedItem();
+        String destinoSelect = (String) Cdestino.getSelectedItem();
+
+        Rutas rutas = new Rutas(listaDatos);
+        rutas.encontrarRutas(origenSelect, destinoSelect);
+        List<Datos> mejorRuta = rutas.menorDistanciaYCombustible();
+        if (mejorRuta != null) {
+            // Mostrar los detalles de la mejor ruta
+            StringBuilder detalles = new StringBuilder();
+            detalles.append("Mejor Ruta por menor Distancia y Combustible (Vehiculo):\n");
+            detalles.append("Tiempo en Vehiculo: ").append(mejorRuta.get(0).getTiempo_vehiculo()).append(" Horas\n");
+            detalles.append("Combustible: ").append(mejorRuta.get(0).getConsumo_gas()).append(" Galones\n");
+            detalles.append("Distancia: ").append(mejorRuta.get(0).getDistancia()).append(" Km\n");
+            Resultados.setText(detalles.toString());
+        } else {
+            Resultados.setText("No se encontro ninguna ruta");
+        }
+
+    }
+
+    // Funciones de todos lo botones 
     private void bt_iniciarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_iniciarMousePressed
         // TODO add your handling code here
         xMouse = evt.getX();
@@ -643,6 +875,10 @@ public class Interfaz extends javax.swing.JFrame {
         yMouse = evt.getY();
     }//GEN-LAST:event_bt_abriDoMousePressed
 
+    private void BT_caminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_caminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BT_caminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -680,8 +916,12 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton BT_caminar;
+    private javax.swing.JRadioButton BT_vehiculo;
     private javax.swing.JComboBox<String> Cdestino;
     private javax.swing.JComboBox<String> Corigen;
+    private javax.swing.JComboBox<String> JRUTAS;
+    private javax.swing.JTextPane Resultados;
     private javax.swing.JTextPane areaDetalles;
     private javax.swing.JLabel bt_abriDo;
     private javax.swing.JLabel bt_abrir;
@@ -692,8 +932,12 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel ini;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lamapa;
     private javax.swing.JLabel mapa;

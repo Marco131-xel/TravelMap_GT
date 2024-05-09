@@ -1,72 +1,91 @@
 package nodos;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ArbolB {
-    private NodoB raiz;
-    private int gradoMaximo;
 
-    // Constructor
-    public ArbolB(int gradoMaximo) {
-        this.raiz = null;
-        this.gradoMaximo = gradoMaximo;
+    public Nodo raiz;
+    private int grado; // Grado del arbol 
+
+    public ArbolB(int grado) {
+        this.grado = grado;
+        raiz = new Nodo(grado, true);
     }
 
-    // Método para agregar una lista de nodos al árbol
-    public void agregarListaNodos(List<Rutas> listaNodos) {
-        if (listaNodos.size() > gradoMaximo - 1) {
-            // Si la lista es demasiado grande para el grado máximo, dividirla en sub-listas
-            List<List<Rutas>> subListas = dividirLista(listaNodos);
-
-            // Crear nodos intermedios y agregar sub-listas como hijos
-            NodoB nodoIntermedio = new NodoB();
-            nodoIntermedio.setHijos(new ArrayList<>());
-            for (List<Rutas> subLista : subListas) {
-                NodoB hijo = new NodoB();
-                hijo.setListaNodos(subLista);
-                nodoIntermedio.getHijos().add(hijo);
-            }
-
-            // Actualizar la raiz si es necesario
-            if (raiz == null) {
-                raiz = nodoIntermedio;
-            } else {
-
-            }
+    // Insertar una llave al arbol B
+    public void insertar(int llave, String Noditos) {
+        if (raiz == null) {
+            raiz = new Nodo(grado, true);
+            raiz.llaves.add(llave);
+            raiz.Noditos.add(Noditos);
         } else {
-            if (raiz == null) {
-                raiz = new NodoB();
+            if (raiz.llaves.size() == 2 * grado - 2) {
+                Nodo nuevoRaiz = new Nodo(grado, false);
+                nuevoRaiz.hijos.add(raiz);
+                dividirNodo(nuevoRaiz, 0, raiz);
+                raiz = nuevoRaiz;
             }
-            raiz.setListaNodos(listaNodos);
+            insertarNodo(raiz, llave, Noditos);
         }
     }
-    private List<List<Rutas>> dividirLista(List<Rutas> lista) {
-        List<List<Rutas>> subListas = new ArrayList<>();
-        for (int i = 0; i < lista.size(); i += gradoMaximo - 1) {
-            subListas.add(lista.subList(i, Math.min(i + gradoMaximo - 1, lista.size())));
+
+    // Funcion auxiliar para insertar nodos
+    private void insertarNodo(Nodo nodo, int llaves, String Noditos) {
+        int i = nodo.llaves.size() - 1;
+        if (nodo.hojas) {
+            while (i >= 0 && llaves < nodo.llaves.get(i)) {
+                i--;
+            }
+            nodo.llaves.add(i + 1, llaves);
+            nodo.Noditos.add(i + 1, Noditos);
+        } else {
+            while (i >= 0 && llaves < nodo.llaves.get(i)) {
+                i--;
+            }
+            i++;
+            Nodo hijo = nodo.hijos.get(i);
+            if (hijo.llaves.size() == 2 * grado - 2) {
+                dividirNodo(nodo, i, hijo);
+                if (llaves > nodo.llaves.get(i)) {
+                    i++;
+                }
+            }
+            insertarNodo(nodo.hijos.get(i), llaves, Noditos);
         }
-        return subListas;
+    }
+    
+    // Funcion para dividir nodos 
+    private void dividirNodo(Nodo padre, int indice, Nodo hijo){
+        Nodo nuevoNodo = new Nodo(grado,hijo.hojas);
+        for (int i = 0; i < grado - 2; i++) {
+            nuevoNodo.llaves.add(hijo.llaves.remove(grado-3));
+            nuevoNodo.Noditos.add(hijo.Noditos.remove(grado));
+        }
+        if(!hijo.hojas){
+            for (int i = 0; i < grado; i++) {
+                nuevoNodo.hijos.add(hijo.hijos.remove(grado));
+            }
+        }
+        padre.llaves.add(indice, hijo.llaves.remove(grado-3));
+        padre.Noditos.add(indice,hijo.Noditos.remove(grado-1));
+        padre.hijos.add(indice,nuevoNodo);
     }
 
-    private static class NodoB {
-        private List<NodoB> hijos; // Lista de nodos hijos (nodos intermedios)
-        private List<Rutas> listaNodos; // Lista de nodos (nodos hoja)
+    // Funcion para imprimir el arbol b
+    public void imprimir() {
+        imprimirRecur(raiz, "");
+    }
 
-        // Getters y setters
-        public List<NodoB> getHijos() {
-            return hijos;
-        }
-
-        public void setHijos(List<NodoB> hijos) {
-            this.hijos = hijos;
-        }
-
-        public List<Rutas> getListaNodos() {
-            return listaNodos;
-        }
-
-        public void setListaNodos(List<Rutas> listaNodos) {
-            this.listaNodos = listaNodos;
+    private void imprimirRecur(Nodo nodo, String prefijo) {
+        if (nodo != null) {
+            System.out.println(prefijo);
+            for (int i = 0; i < nodo.llaves.size(); i++) {
+                System.out.println("(" + nodo.Noditos.get(i) + nodo.llaves.get(i) + ")");
+            }
+            System.out.println();
+            if (!nodo.hojas) {
+                for (Nodo hijo : nodo.hijos) {
+                    imprimirRecur(nodo, prefijo + " ");
+                }
+            }
         }
     }
 }
